@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+    <select id="findByColumn" resultType="map">
+        SELECT *
+        FROM tax_user
+        WHERE ${column} = #{value}
+    </select>
+    <insert id="register" parameterType="com.entity.User">
+        INSERT INTO tax_user (`uni_id`, `nickname`, `password`, `phone`, `balance`, `join_time`)
+        VALUES (#{uni_id}, #{nickname}, #{password}, #{phone}, #{balance}, #{join_time})
+    </insert>
+    <select id="findByID" resultType="map">
+        SELECT *
+        FROM tax_user
+        WHERE id = #{user_ID}
+    </select>
+    <select id="selectUserByPhone" resultType="map">
+        select * from tax_user
+        where parent_id = (select uni_id from tax_user where phone = #{phone})
+    </select>
+    <select id="findByPhone" resultType="map">
+        SELECT *
+        FROM tax_user
+        WHERE phone = #{phoneNumber}
+    </select>
+    <update id="updateVipLevel">
+        UPDATE tax_user
+        SET balance=#{balance},vip_level=#{vip_level}
+        WHERE phone=#{phone}
+    </update>
+    <update id="updateUserPassword">
+        update tax_user set password = #{password} where phone = #{phone}
+    </update>
+    <update id="resetUserVipLevel">
+        update tax_user set vip_level = 0 where uni_id = #{uni_id}
+    </update>
+</mapper>

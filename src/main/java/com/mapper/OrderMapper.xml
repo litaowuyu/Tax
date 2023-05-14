@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.OrderMapper">
+    <update id="updateBalance" parameterType="map">
+        UPDATE tax_user
+        SET balance = #{balance}
+        WHERE uni_id = #{uni_id}
+    </update>
+    <insert id="createOrder" parameterType="map">
+        INSERT INTO tax_order(`user_id`, `goods_id`, `reward`, `finish_time`, `create_time`)
+        VALUES (#{user_id}, #{goods_id}, #{reward}, #{finish_time}, #{create_time})
+    </insert>
+
+    <select id="selectOrderState" resultType="map">
+        SELECT state
+        FROM tax_order
+        WHERE user_id = #{user_id}
+    </select>
+    <select id="findByID" resultType="map">
+        SELECT *
+        FROM tax_goods
+        WHERE id = #{goods_id}
+    </select>
+    <select id="findByWhereWithList" parameterType="map" resultType="map">
+        SELECT * FROM tax_order
+        <where>
+            <if test="state != null">
+                state=#{state}
+            </if>
+            <if test="finish_time != null">
+                AND finish_time
+                &lt;
+                #{finish_time}
+            </if>
+        </where>
+    </select>
+    <update id="updateState" parameterType="list">
+        UPDATE tax_order SET state=2 WHERE id IN
+        <foreach collection="orderList" index="index" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <select id="findProcessingOrder" resultType="map">
+        SELECT *
+        FROM tax_order
+                 LEFT JOIN tax_goods ON tax_goods.id = tax_order.goods_id
+        WHERE user_id = #{user_id}
+          AND state = #{state}
+          AND tax_goods.vip_level = #{vip_level}
+
+    </select>
+    <select id="findAllProcessingOrder" resultType="map">
+        SELECT *
+        FROM tax_order
+                 LEFT JOIN tax_goods ON tax_goods.id = tax_order.goods_id
+        WHERE user_id = #{user_id}
+          AND state = #{state}
+    </select>
+    <update id="completedOrder" parameterType="map">
+        UPDATE tax_order
+        SET state =3
+        WHERE user_id = #{user_id}
+          AND goods_id = #{goods_id}
+
+    </update>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.PaymentMapper">
+    <select id="getList" resultType="map">
+        SELECT *
+        FROM tax_payment
+    </select>
+    <insert id="recharge" parameterType="map">
+        INSERT INTO tax_recharge
+        VALUES (null, #{user_id}, #{payment_id}, #{payment_type}, #{money}, #{create_time}, 0)
+    </insert>
+
+    <select id="getUserAccount" resultType="map">
+        SELECT *
+        FROM tax_account
+        WHERE uni_id = #{uni_id}
+    </select>
+    <delete id="deleteAccount">
+        DELETE
+        FROM tax_account
+        WHERE id = #{id}
+    </delete>
+    <insert id="addAccount">
+        INSERT INTO tax_account (`uni_id`, `account`, `address`)
+        VALUES (#{uni_id}, #{account}, #{address})
+    </insert>
+    <update id="addUserBalance">
+        UPDATE tax_user SET balance=#{money}+balance WHERE uni_id =#{uni_id}
+    </update>
+</mapper>

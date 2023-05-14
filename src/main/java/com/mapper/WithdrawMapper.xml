@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.WithdrawMapper">
+    <!--select insert update delete标签写sql-->
+    <update id="updateUserAccountBal">
+        update tax_user
+        set balance = balance - #{balance}
+        where id = #{id}
+    </update>
+    <insert id="createWithdrawOrder">
+        insert into tax_withdraw (`uni_id`, `withdraw_money`, `name`)
+        values (#{uni_id}, #{withdraw_money}, #{name})
+    </insert>
+</mapper>

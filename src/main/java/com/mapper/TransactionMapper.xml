@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.TransactionMapper">
+    <select id="selectUserTeam" resultType="map">
+        select tran_name as name, create_time as `time`,reward
+        from tax_tran
+        where uni_id = #{uni_id}
+    </select>
+
+    <select id="selectUserOrder" resultType="map">
+        select tax_order.reward, tax_order.`time`, tax_goods.`name`
+        from tax_order
+                 left join tax_goods on tax_order.goods_id = tax_goods.id
+        where user_id = (select id from tax_user where uni_id = #{uni_id} and tax_order.state = 3)
+    </select>
+    <select id="selectUserWithdraw" resultType="map">
+        select  withdraw_money as reward, create_time as time, `name`
+        from tax_withdraw
+        where uni_id = #{uni_id}
+    </select>
+
+    <select id="selectUserRecharge" resultType="map">
+        select tax_payment.payment_name as `name`, tax_recharge.money as reward, tax_recharge. time
+        from tax_recharge left join tax_payment on tax_recharge.payment_id = tax_payment.id
+        where tax_recharge.user_id = #{id}
+    </select>
+</mapper>

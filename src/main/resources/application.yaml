@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    username: root
+    password: litao
+    url: jdbc:mysql://localhost:3306/tax?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 5
+      max-active: 1000
+      min-idle: 5
+    devtools:
+      restart:
+        log-condition-evaluation-delta: false
+      # 初始化dispatcherServlet，默认-1未开启，0及以上为开启
+    mvc:
+      servlet:
+        load-on-startup: 1
+  main:
+    allow-circular-references: true
+  mapper-locations: classpath:com.mapper/*.xml
+  #字段为空时也能返回键值
+  configuration:
+    call-setters-on-nulls: true
+    #开启mybatis SQL监控
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+server:
+  port: 4869
+#分页插件配置
+#Page初始化及执行分页查询时都会用到一个参数: reasonable,
+#当设置了true，并且当前查询的页码大于总页数时，就会进行分页的合理化，会把当前查询的页码重置为总页数，
+#也就是说查询了最后一页的pageSize记录。
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+
+
