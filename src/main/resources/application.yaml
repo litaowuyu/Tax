@@ -2,7 +2,8 @@ spring:
   datasource:
     username: root
     password: litao
-    url: jdbc:mysql://127.0.0.1ql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/tax?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       initial-size: 5
       max-active: 1000
