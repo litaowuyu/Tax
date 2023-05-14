@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: litao
-    url: jdbc:mysql://localhost:3306/tax?serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1/tax?serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       initial-size: 5
